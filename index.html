@@ -1,0 +1,167 @@
+<!DOCTYPE HTML>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src *; img-src * data:; frame-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' *;">
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" type="text/css" href="./css/jquery.mobile-1.4.5.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/mine.css" />
+    <script type="text/javascript" src="js/jquery-1.11.2.min.js"> </script>
+    <script>
+      $(document).on('mobileinit', function() {
+      $.mobile.loader.prototype.options.text = 'Loading...';
+      $.mobile.loader.prototype.options.textonly = false;
+      $.mobile.loader.prototype.options.textVisible = true;
+      $.mobile.loader.prototype.options.theme = 'a';
+      $.mobile.pageLoadErrorMessage = "The page can not be displayed";
+      $.mobile.pageLoadErrorMessageTheme = "b";
+      });
+    </script>
+    <script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js"> </script>
+    <script src="js/easeljs-0.8.2.min.js"></script>
+	<script src="js/lz-string.min.js"></script>
+    <script src="js/tweenjs-0.6.2.min.js"></script>
+    <script type="text/javascript" src="js/jquery.touchSwipe.min.js"></script>
+    <script type="text/javascript" src="js/fastclick.js"> </script>
+    <script type="text/javascript" src="tictactoe.js"> </script>
+    <script>
+    // $(function() {
+    //     $("#menuHeader").swipe( {
+    //         swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
+    //             switch (direction) {
+    //             case "left":
+    //             case "up":
+    //                 $(".ui-collapsible").collapsible("collapse");
+    //                 console.log("true");
+    //                 break;
+    //             case "right":
+    //             case "down":
+    //                 $(".ui-collapsible").collapsible("expand");
+    //                 console.log("false");
+    //                 break;
+    //             }
+
+    //         }
+    //     });
+    // });
+    function twitterShare(){
+        var win_easy_count = document.getElementById("spanEasyWin").innerHTML;
+        var lose_easy_count = document.getElementById("spanEasyLose").innerHTML;
+        var win_normal_count = document.getElementById("spanNormalWin").innerHTML;
+        var lose_normal_count = document.getElementById("spanNormalLose").innerHTML;
+        win_easycount = (isNaN(win_easy_count) || !win_easy_count) ? "0" : win_easy_count;
+        lose_easy_count = (isNaN(lose_easy_count) || !lose_easy_count) ? "0" : lose_easy_count;
+        win_normal_count = (isNaN(win_normal_count) || !win_normal_count) ? "0" : win_normal_count;
+        lose_normal_count = (isNaN(lose_normal_count) || !lose_normal_count) ? "0" : lose_normal_count;
+        var result = "Easy: 勝ち：" + win_easy_count + "　負け：" + lose_easy_count + "\n\r";
+        result = result + "Normal: 勝ち：" + win_normal_count + "　負け：" + lose_normal_count + "\n\r";
+        var linkStr = "https://play.google.com/store/apps/details?id=tictactoe_van.io.github.happyclam"
+        window.plugins.socialsharing.share('消える三目並べ（Tictactoe Van） ' + linkStr + ' \n\r' + result, 'vanishing', null, null);
+    };
+
+    </script>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/SocialSharing.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <title>消える三目並べ（Tictactoe Van）</title>
+</head>
+<body>
+<div id="home" data-role="page" data-fullscreen="true">
+  <div data-role="header" data-position="fixed">
+    <h1 id="title">消える三目並べ</h1>
+    <button class="ui-btn ui-icon-heart ui-btn-icon-notext ui-btn-left" data-role="button" onclick="javascript:twitterShare();">Twitter</button>
+    <a href="#win_menu" class="ui-btn ui-btn-inline ui-icon-gear ui-btn-right ui-btn-icon-notext">Setting</a>
+  </div>
+  <div data-role="content">
+    <canvas id="canvasMain" style="display:block; margin:0 auto;"></canvas>
+    <form>
+    <p>
+      <span class="message" id="spanStatus"></span>
+      <input id="btnStart" type="button" value="Start!">
+    </p>
+    </form>
+  </div>
+  <div data-role="footer" data-id="common-footer" class="footer-copyright">
+    <a href="http://happyclam.github.io">&copy;2017 happyclam.github.io</a>
+  </div>
+</div>
+<div data-role="page" id="win_menu" data-fullscreen="true">
+  <div id="menuHeader" data-role="header" data-position="fixed">
+    <h1 id="menuTitle">Menu</h1>
+    <a id="aReturn" href="#home" class="ui-btn ui-icon-arrow-u ui-btn-icon-notext ui-btn-right" data-role="button"></a>
+    <button class="ui-btn ui-icon-heart ui-btn-icon-notext ui-btn-left" data-role="button" onclick="javascript:twitterShare();">Twitter</button>
+  </div>
+    <div data-role="content" style="overflow: auto; -webkit-overflow-scrolling: touch;">
+    <div id="menu_frame" data-role="collapsible-set">
+      <div data-role="collapsible" data-theme="b" data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u">
+        <H3>学習機能</h3>
+        <div>
+          <select name="flipswitch" id="flipSwitch" data-role="slider">
+            <option value="off">Off</option>
+            <option value="on">On</option>
+          </select>
+        </div>
+      </div>
+      <div data-role="collapsible" data-theme="b" data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u">
+        <H3>難易度</h3>
+        <div>
+          <fieldset data-role="controlgroup" data-type="horizontal" data-inline="true" data-mini="true">
+            <input type="radio" name="radio-difficulty" id="radio-easy" value="easy" />
+            <label for="radio-easy">Easy (Fade Away)</label>
+            <input type="radio" name="radio-difficulty" id="radio-normal" value="normal" />
+            <label for="radio-normal">Normal (Vanish)</label>
+          </fieldset>
+        </div>
+      </div>
+      <div data-role="collapsible" data-theme="b" data-collapsed="false" data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u">
+        <h3>対戦成績</h3>
+        <div data-role="collapsible" data-theme="b" data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u">
+          <H3>Easy</h3>
+          <ul id="listRecord" data-role="listview">
+            <li>勝ち：<span id="spanEasyWin" class="ui-li-count">0</span></li>
+            <li>負け：<span id="spanEasyLose" class="ui-li-count">0</span></li>
+          </ul>
+        </div>
+        <div data-role="collapsible" data-theme="b" data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u">
+          <H3>Normal</h3>
+          <ul id="listRecord" data-role="listview">
+            <li>勝ち：<span id="spanNormalWin" class="ui-li-count">0</span></li>
+            <li>負け：<span id="spanNormalLose" class="ui-li-count">0</span></li>
+          </ul>
+        </div>
+      </div>
+      <div data-role="collapsible" data-theme="b" data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u">
+        <h3>「消える三目並べ」について</h3>
+        <p>　対戦を重ねる度に学習して徐々に強くなる機能がついた三目並べ（<span class="menu-comment">Tic-tac-toe</span>）プログラムです。通常の三目並べと違うところは３手前に打った駒が消えていくところで、次にどの駒が消えるかを見越した上で指し手を選ぶ必要があります。次にどの駒が消えるかわかるように徐々に薄く消えていくモード（Easy）と、いきなり消えるモード（Normal）がありNormalモードでは次にどの駒が消えるか判断するために自分とAIの指し手の順番を覚えていないとAIにはなかなか勝てないでしょう。また、先手の時と後手の時の学習度合いに大きな差が生じることを防ぐために<span class="menu-comment-attention">先手×・後手○はソフトがランダムに決める仕様になっています。</span><br />　本プログラム（<span class="menu-comment">TictactoeVan</span>「消える三目並べ」）はゲーム局面の先読みを一切せずに学習したデータを元に指し手を選択しています。強くなっていく仕組みに興味ある方は<a href="http://happyclam.github.io/tictactoe-van">ブログ記事</a>を参照してください。
+        </p>
+      </div>
+    </div>
+  </div>
+  <div data-role="footer" data-id="common-footer" class="footer-copyright">
+    <a href="http://happyclam.github.io">&copy;2017 happyclam.github.io</a>
+  </div>
+</div>
+</body>
+</html>
