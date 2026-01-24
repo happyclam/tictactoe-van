@@ -22,18 +22,18 @@ var backCounter = 0;
 var admobid = {};
 if( /(android)/i.test(navigator.userAgent) ) {
     admobid = { // for Android
-        banner : "ca-app-pub-9018029357773039/9592371308",
-        interstitial : "ca-app-pub-9018029357773039/2069104509"
+        banner : "ca-app-pub-9018029357773039/7849846505",
+        interstitial : "ca-app-pub-9018029357773039/1663712106"
 	};
 } else if(/(ipod|iphone|ipad)/i.test(navigator.userAgent)) {
 	admobid = { // for iOS
-        banner : "ca-app-pub-9018029357773039/8687924108",
-        interstitial : "ca-app-pub-9018029357773039/1164657301"
+        banner : "ca-app-pub-9018029357773039/7849846505",
+        interstitial : "ca-app-pub-9018029357773039/1663712106"
 	};
 } else {
 	admobid = { // for Windows Phone
-        banner : "ca-app-pub-9018029357773039/9592371308",
-        interstitial : "ca-app-pub-9018029357773039/2069104509"
+        banner : "ca-app-pub-9018029357773039/7849846505",
+        interstitial : "ca-app-pub-9018029357773039/1663712106"
 	};
 }
 var app = {
@@ -48,6 +48,7 @@ var app = {
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
         document.addEventListener('backbutton', this.onBackButton, false);
+        // document.addEventListener('admob.banner.events.LOAD_FAIL', this.onLoadFail, function (event) {});
 //        document.addEventListener('bannerreceive', this.onBannerReceive, false);
         // document.addEventListener(admob.events.onAdLoaded, onAdLoaded);
         // document.addEventListener(admob.events.onAdOpened, function (e) {});
@@ -71,29 +72,58 @@ var app = {
             }, 2 * 60 * 1000); // 2 minutes
         }
     },
+    // onLoadFail: function(event) {
+    //     console.dir(event);
+    // },
     onBackButton: function() {
         backCounter += 1;
         navigator.notification.confirm("アプリを終了しますか？", app.onConfirm, "終了メニュー", ["キャンセル", "終了"]);
 
     },
     onDeviceReady: function() {
-////        document.removeEventListener('deviceready', onDeviceReady, false);
-//		if (! admob ) { alert( 'admob plugin not ready' ); return; }
+        // if ( window.plugins && window.plugins.AdMob ) {
+        //     // AdMob.createBanner( {
+        //     //     adId: admobid.banner,
+        //     //     position: AdMob.AD_POSITION.BOTTOM_CENTER,
+        //     //     isTesting: true,
+        //     //     overlap: false,
+        //     //     offsetTopBar: false,
+        //     //     bgColor: 'black'
+        //     // } );
+
+        //     // admob.banner.config({
+        //     //     id: admobid.banner,
+        //     //     isTesting: false,
+        //     //     autoShow: true
+        //     // });
+        //     // admob.banner.prepare();
+        //     // admob.banner.show();
+        //     // admob.interstitial.config({
+        //     //     id: admobid.interstitial,
+        //     //     isTesting: true,
+        //     //     autoShow: false,
+        //     // });
+        //     // admob.interstitial.prepare();
+        //     // admob.interstitial.show();
+
+        //     app.receivedEvent();
+        // } else {
+		    // alert( 'AdMob plugin not ready' ); return;
+        // }
         FastClick.attach(document.body);
-        app.receivedEvent();
     },
     receivedEvent: function() {
         var bOverLap = false;
         if (device.version.search('4.1.') === 0) {
             bOverLap = true;
         }
-        admob.setOptions({
+        window.plugins.AdMob.setOptions({
             publisherId:      admobid.banner,
             interstitialAdId: admobid.interstitial,
             tappxIdiOs:       "",
             tappxIdAndroid:   "",
             tappxShare:       "",
-            adSize:           admob.AD_SIZE.SMART_BANNER,
+            adSize:           window.plugins.AdMob.AD_SIZE.SMART_BANNER,
             bannerAtTop:      false,
             overlap:          bOverLap,
             offsetStatusBar:  false,
@@ -102,8 +132,8 @@ var app = {
             autoShowBanner:   true,
             autoShowInterstitial: true
         });
-        admob.createBannerView();
-//        admob.requestInterstitial();
+        window.plugins.AdMob.createBannerView();
+//        window.plugins.AdMob.requestInterstitial();
     }
 };
 

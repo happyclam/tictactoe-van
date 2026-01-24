@@ -1,0 +1,10 @@
+#-*- coding: utf-8 -*-
+NOUGHT = -1
+CROSS = 1
+DRAW = 0
+MAX_VALUE = 9
+MIN_VALUE = -9
+ONGOING = 999
+PEBBLES = 1.0
+LIMIT = 12
+GAUGE = 6
