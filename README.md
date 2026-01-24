@@ -12,7 +12,7 @@
 *
 
 ### ファイルの役割
-##### mainブランチ
+##### masterブランチ
 * test.sh --- 学習データ作成用スクリプト（学習データファイルtrees.dump出力）
 * play.rb --- 対人テスト用対戦スクリプト（trees.dumpファイルが無い場合は一局対戦後に出力する）
 * verify.rb --- 学習データ確認用スクリプト
@@ -26,5 +26,5 @@
 
 
 
-[PC版実行](https://github.com/happyclam/tictactoe-van/)
+[PC版実行](https://happyclam.github.io/tictactoe-van/)
 
