@@ -1,3 +1,5 @@
+# learning.rb
+
 require "pathname"
 require_relative "./disappearing_tictactoe"
 require_relative "./disappearing_markov"
@@ -9,13 +11,14 @@ agent = StoneAgent.new
 
 EPISODES = 1000000
 
-EPISODES.times do
+EPISODES.times do |ep|
   game.reset
   history = []
   until game.over?
     state = game.state
     actions = game.legal_actions
-    action = agent.choose_action(state, actions)
+    epsilon = [0.05, 1.0 - ep.to_f / EPISODES].max
+    action = agent.choose_action(state, actions, epsilon)
     game.play(action)
     history << [state, action]
   end
@@ -25,5 +28,5 @@ end
 puts "学習完了"
 
 p agent.stones.length
-# p agent.stones
-StoneAgent::save("./stones.dump", agent)
+p agent.stones
+StoneAgent::save("./mc_agent.dump", agent)

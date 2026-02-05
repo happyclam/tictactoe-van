@@ -31,51 +31,63 @@ class StoneAgent
   # =========================
   # 行動選択（石ころが多い手を選ぶ）対戦用
   # =========================
-  # def choose_action(state, legal_actions)
-  #   # 石ころが多い手を選ぶ（同数ならランダム）
-  #   legal_actions.max_by do |a|
-  #     @stones[[key(state), a]] + rand * 0.01
-  #   end
-  # end
+  def choose_action_greedy(state, legal_actions)
+    # 石ころが多い手を選ぶ（同数ならランダム）
+    legal_actions.max_by do |a|
+      @stones[[key(state), a]] + rand * 0.01
+    end
+  end
 
   # =========================
   # 行動選択（ルーレット）学習用
   # =========================
-  def choose_action(state, legal_actions)
+  # def choose_action(state, legal_actions)
+  #   state_key = key(state)
+
+  #   # 各行動の石ころ数を取得
+  #   weights = legal_actions.map do |a|
+  #     @stones[[state_key, a]]
+  #   end
+
+  #   total = weights.sum
+
+  #   # 念のため（全ゼロ防止）
+  #   if total <= 0
+  #     return legal_actions.sample
+  #   end
+
+  #   r = rand * total
+  #   acc = 0.0
+
+  #   legal_actions.each_with_index do |a, i|
+  #     acc += weights[i]
+  #     return a if r <= acc
+  #   end
+
+  #   # 保険
+  #   legal_actions.last
+  # end
+
+  def choose_action(state, legal_actions, epsilon = 0.2)
     state_key = key(state)
 
-    # 各行動の石ころ数を取得
-    weights = legal_actions.map do |a|
-      @stones[[state_key, a]]
+    if rand < epsilon
+      # 探索
+      legal_actions.sample
+    else
+      # 活用
+      legal_actions.max_by { |a| @stones[[state_key, a]] }
     end
-
-    total = weights.sum
-
-    # 念のため（全ゼロ防止）
-    if total <= 0
-      return legal_actions.sample
-    end
-
-    r = rand * total
-    acc = 0.0
-
-    legal_actions.each_with_index do |a, i|
-      acc += weights[i]
-      return a if r <= acc
-    end
-
-    # 保険
-    legal_actions.last
   end
 
-  # =========================
+# =========================
   # 報酬付与
   # =========================
   # def reward!(history, result)
   #   base_reward =
   #     case result
-  #     when :win  then 3
-  #     when :lose then -1
+  #     when :win  then 5
+  #     when :lose then -2
   #     else 0
   #     end
 
