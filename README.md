@@ -21,12 +21,15 @@
 * game.rb --- 消える三目並べクラス（諸々）
 
 ##### chatGPTブランチ
-* learning.rb --- 学習データ作成用スクリプト（学習データファイルstones.dump出力）
+* learning.rb --- モンテカルロ学習データ作成用（学習データファイル`mc_agent.dump`出力）
 * play.rb --- 対人テスト用対戦スクリプト
 * disappearing_tictactoe.rb --- 確率的方策（ポリアの壺モデル）によるモンテカルロ制御クラス
 * disappearing_markov.rb --- マルコフ拡張モンテカルロ制御クラス
-* stone_agent.rb --- 学習エージェントクラス（ノーマル学習＆マルコフ学習兼用）
-* stones.dump --- 学習済みデータ
+* stone_agent.rb --- モンテカルロ学習エージェントクラス（ノーマル学習＆マルコフ学習兼用）
+* alpha-beta.rb --- αβ法プログラム
+* qlearning.rb --- Q-Learning学習データ作成用（学習データファイル`q_agent.dump`出力）
+* qlearning_agent.rb --- Q-Learning学習エージェントクラス
+* play_match.rb --- 学習済みプログラム＆αβ法プログラム対戦スクリプト
 
 
 [PC版実行](https://happyclam.github.io/tictactoe-van/)
