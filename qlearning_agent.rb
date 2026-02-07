@@ -67,32 +67,6 @@ class QLearningAgent
       legal_actions.last
     end
   end
-  # def choose_action(state, legal_actions)
-  #   state_key = key(state)
-
-  #   # 各行動の石ころ数を取得
-  #   weights = legal_actions.map do |a|
-  #     @stones[[state_key, a]]
-  #   end
-
-  #   total = weights.sum
-
-  #   # 念のため（全ゼロ防止）
-  #   if total <= 0
-  #     return legal_actions.sample
-  #   end
-
-  #   r = rand * total
-  #   acc = 0.0
-
-  #   legal_actions.each_with_index do |a, i|
-  #     acc += weights[i]
-  #     return a if r <= acc
-  #   end
-
-  #   # 保険
-  #   legal_actions.last
-  # end
 
   def learn!(state, action, reward, next_state, next_actions)
     s  = key(state)
@@ -139,24 +113,6 @@ class QLearningAgent
       @stones[k] = 1 if @stones[k] < 1
     end
   end
-  # def reward!(history, result)
-  #   base_reward =
-  #     case result
-  #     when :win  then 3
-  #     when :lose then -1
-  #     else 0
-  #     end
-
-  #   history.each_with_index do |(state, action), i|
-  #     k = [key(state), action]
-
-  #     # 序盤ほど少し強く反映
-  #     weight = 1.0 - (i.to_f / history.size) * 0.5
-  #     @stones[k] += base_reward * weight
-
-  #     @stones[k] = 1 if @stones[k] < 1
-  #   end
-  # end
 
   # =========================
   # state のキー化

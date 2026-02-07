@@ -10,13 +10,14 @@ agent = QLearningAgent.new
 
 EPISODES = 1000000
 
-EPISODES.times do
+EPISODES.times do |ep|
   game.reset
 
   until game.over?
     state = game.state
     actions = game.legal_actions
-    action = agent.choose_action(state, actions)
+    epsilon = [0.1, 1.0 - ep / 1_000_000.0].max
+    action = agent.choose_action(state, actions, epsilon)
     game.play(action)
     reward =
       case game.result

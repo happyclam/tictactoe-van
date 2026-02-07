@@ -10,37 +10,41 @@ q_agent  = QLearningAgent.read("q_agent.dump")
 mc_agent = StoneAgent.read("mc_agent.dump")
 
 def play_match(q_agent, mc_agent, games = 1_000)
+  # ↓---αβ法と対戦するときに必要-----------------
   ab = AlphaBeta.new  #αβ法を使ったプログラムとの対戦
+  # ↑-------------------------------
   stats = { q_win: 0, mc_win: 0, draw: 0 }
 
   games.times do |i|
     game = DisappearingMarkov.new
+  # ↓---αβ法と対戦するときに必要-----------------
+    ab.board.init
+  # ↑-------------------------------
     state = game.state
     current = :q
-    turn = if current == :q then :X else :O end
-    p "Start!"
+    p "Start! count: #{i + 1}"
+    move_count = 0
     until game.over?
       p "=========================="
       legal = game.legal_actions
-
       action =
         if current == :q
           # q_agent.choose_action_greedy(state, legal)
           # mc_agent.choose_action_greedy(state, legal)
-          ab.choose_action(state, turn)
+          ab.choose_action(state)
         else
-          mc_agent.choose_action_greedy(state, legal)
-          # q_agent.choose_action_greedy(state, legal)
-          # ab.choose_action(state, turn)
+          # mc_agent.choose_action_greedy(state, legal)
+          q_agent.choose_action_greedy(state, legal)
+          # ab.choose_action(state)
           # mc_agent.choose_action(state, legal)
         end
-
       game.play(action)
       state = game.state
       current = (current == :q ? :mc : :q)
       game.display
+      move_count += 1
+      exit if move_count > 50
     end
-    # p "i = #{i}, current = #{current}"
 
     if current == :q
       stats[:mc_win] += 1
@@ -51,10 +55,6 @@ def play_match(q_agent, mc_agent, games = 1_000)
     else
       stats[:draw] += 1
     end
-    # case game.result
-    # when :q_win  then stats[:q_win] += 1
-    # when :mc_win then stats[:mc_win] += 1
-    # else stats[:draw] += 1
   end
 
   stats
