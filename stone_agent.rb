@@ -83,35 +83,21 @@ class StoneAgent
 # =========================
   # 報酬付与
   # =========================
-  # def reward!(history, result)
-  #   base_reward =
-  #     case result
-  #     when :win  then 5
-  #     when :lose then -2
-  #     else 0
-  #     end
-
-  #   history.each do |state, action|
-  #     k = [key(state), action]
-  #     @stones[k] += base_reward
-
-  #     # 石ころは 1 未満にしない（探索の死を防ぐ）
-  #     @stones[k] = 1 if @stones[k] < 1
-  #   end
-  # end
   def reward!(history, result)
     base_reward =
       case result
-      when :win  then 3
-      when :lose then -1
+      when :win  then [(3.0 - 0.1 * history.length), 1.0].max
+      when :lose then [(-3.0 + 0.1 * history.length), -1.0].min
       else 0
       end
 
     history.each_with_index do |(state, action), i|
       k = [key(state), action]
 
+      # 終盤ほど少し強く反映
+      weight = (i + 1).to_f / history.length
       # 序盤ほど少し強く反映
-      weight = 1.0 - (i.to_f / history.size) * 0.5
+      # weight = 1.0 - (i.to_f / history.size) * 0.5
       @stones[k] += base_reward * weight
 
       @stones[k] = 1 if @stones[k] < 1

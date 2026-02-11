@@ -9,7 +9,7 @@ require_relative "./stone_agent"
 game = DisappearingMarkov.new
 agent = StoneAgent.new
 
-EPISODES = 1000000
+EPISODES = 50_000_000
 
 EPISODES.times do |ep|
   game.reset
@@ -17,7 +17,7 @@ EPISODES.times do |ep|
   until game.over?
     state = game.state
     actions = game.legal_actions
-    epsilon = [0.05, 1.0 - ep.to_f / EPISODES].max
+    epsilon = [0.05, 1.0 - ep.to_f / 50_000_000.0].max
     action = agent.choose_action(state, actions, epsilon)
     game.play(action)
     history << [state, action]

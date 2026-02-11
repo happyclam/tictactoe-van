@@ -8,7 +8,7 @@ require_relative "./qlearning_agent"
 game = DisappearingMarkov.new
 agent = QLearningAgent.new
 
-EPISODES = 1000000
+EPISODES = 1_000_000
 
 EPISODES.times do |ep|
   game.reset

@@ -8,6 +8,7 @@
 
 ### 関連記事
 * [「消える三目並べをマルコフ拡張」](https://happyclam.github.io/software/2026-01-25/markov_chain)
+* [「強化学習プログラムが強くなってる指標が欲しい」](https://happyclam.github.io/software/2026-02-11/play_match)
 * [「消える三目並べ」リリースしました](https://happyclam.github.io/project/2017-07-11/tictactoe-van)
 * [「消える三目並べ」、思ったより大変](https://happyclam.github.io/programming/2016-11-03/ml_miscellaneous2)
 

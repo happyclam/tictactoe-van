@@ -19,8 +19,8 @@ else
   exit
 end
 # ---αβ法対人間用-----------------
-ab = AlphaBeta.new  #αβ法を使ったプログラムとの対戦
-ab.board.init
+# ab = AlphaBeta.new  #αβ法を使ったプログラムとの対戦
+# ab.board.init
 # ---αβ法対人間用-----------------
 
 game.display
@@ -48,7 +48,7 @@ until game.over?
   actions = game.legal_actions
   action = agent.choose_action_greedy(state, actions)
   # ---αβ法対人間用-----------------
-  action = ab.choose_action(state)
+  # action = ab.choose_action(state)
   # ---αβ法対人間用-----------------
   game.play(action)
   game.display

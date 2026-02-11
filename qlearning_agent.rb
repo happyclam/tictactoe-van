@@ -95,26 +95,6 @@ class QLearningAgent
   end
 
   # =========================
-  # 報酬付与
-  # =========================
-  def reward!(history, result)
-    base_reward =
-      case result
-      when :win  then 3
-      when :lose then -1
-      else 0
-      end
-
-    history.each do |state, action|
-      k = [key(state), action]
-      @stones[k] += base_reward
-
-      # 石ころは 1 未満にしない（探索の死を防ぐ）
-      @stones[k] = 1 if @stones[k] < 1
-    end
-  end
-
-  # =========================
   # state のキー化
   # =========================
   def key(state)
